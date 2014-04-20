@@ -1,0 +1,134 @@
+{
+  "batter": {
+    "name": "荒木雅博",
+    "hand": "右",
+    "id": "11436"
+  },
+  "pitcher": {
+    "name": "内海哲也",
+    "hand": "左",
+    "id": "400010"
+  },
+  "pitches": [
+    {
+      "total": 2,
+      "no": 1,
+      "mark": "●1",
+      "type": "ストレート",
+      "speed": 133,
+      "course": [
+        4,
+        4
+      ],
+      "result": "ボール",
+      "comment": [
+
+      ],
+      "bso": {
+        "b": 1,
+        "s": 0,
+        "o": 1
+      }
+    },
+    {
+      "total": 3,
+      "no": 2,
+      "mark": "＜2",
+      "type": "スライダー",
+      "speed": 115,
+      "course": [
+        3,
+        4
+      ],
+      "result": "ボール",
+      "comment": [
+        "ワンバウンド"
+      ],
+      "bso": {
+        "b": 2,
+        "s": 0,
+        "o": 1
+      }
+    },
+    {
+      "total": 4,
+      "no": 3,
+      "mark": "＞3",
+      "type": "シュート",
+      "speed": 135,
+      "course": [
+        0,
+        3
+      ],
+      "result": "ボール",
+      "comment": [
+
+      ],
+      "bso": {
+        "b": 3,
+        "s": 0,
+        "o": 1
+      }
+    },
+    {
+      "total": 5,
+      "no": 4,
+      "mark": "●4",
+      "type": "ストレート",
+      "speed": 135,
+      "course": [
+        2,
+        2
+      ],
+      "result": "見逃し",
+      "comment": [
+
+      ],
+      "bso": {
+        "b": 3,
+        "s": 1,
+        "o": 1
+      }
+    },
+    {
+      "total": 6,
+      "no": 5,
+      "mark": "●5",
+      "type": "ストレート",
+      "speed": 136,
+      "course": [
+        3,
+        3
+      ],
+      "result": "見逃し",
+      "comment": [
+
+      ],
+      "bso": {
+        "b": 3,
+        "s": 2,
+        "o": 1
+      }
+    },
+    {
+      "total": 7,
+      "no": 6,
+      "mark": "●6",
+      "type": "ストレート",
+      "speed": 136,
+      "course": [
+        3,
+        1
+      ],
+      "result": "ライナー",
+      "comment": [
+
+      ],
+      "bso": {
+        "b": 3,
+        "s": 2,
+        "o": 2
+      }
+    }
+  ]
+}
