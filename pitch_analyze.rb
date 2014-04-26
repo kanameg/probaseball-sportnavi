@@ -65,7 +65,7 @@ def make_course_table (doc)
       row.text.split("\n")
     end
   end
-  
+
   return course_table
 end
 
@@ -84,9 +84,9 @@ end
 
 ## 投球情報からハッシュを作成
 def pitch_info (pitch, course_table)
-  total = pitch[1].to_i                                         # 総投球数
   mark = pitch[0]                                               # 記号
   no = /.+([0-9]+)/.match(pitch[0])[1].to_i                     # 投球
+  total = pitch[1].to_i                                         # 総投球数
   type = pitch[2]                                               # 球種
   speed = pitch[3].gsub("km/h", "").to_i                        # 球速
   result = /([^\[\]]+)/.match(pitch[4])[0]                      # 結果
