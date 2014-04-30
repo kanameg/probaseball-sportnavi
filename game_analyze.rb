@@ -7,22 +7,23 @@ require "json"
 require "nokogiri"
 
 
-position_table = ["投":"P", "遊":"SS", "二":"2B", "左":"LF", "三":"3B",
-                  "捕":"C", "一":"1B", "右":"RF", "中":"CF"]
+position_table = [投: "P", 遊: "SS", 二: "2B", 左: "LF", 三: "3B",
+                  捕: "C", 一: "1B", 右: "RF", 中: "CF"]
 
-team_table = ["G": "読売ジャイアンツ",
-              "T": "阪神タイガース",
-              "C": "広島東洋カープ",
-              "D": "中日ドラゴンズ",
-              "DB":"横浜DeNAベイスターズ",
-              "S": "東京ヤクルトスワローズ",
+
+team_table = [G:  "読売ジャイアンツ",
+              T:  "阪神タイガース",
+              C:  "広島東洋カープ",
+              D:  "中日ドラゴンズ",
+              DB: "横浜DeNAベイスターズ",
+              S:  "東京ヤクルトスワローズ",
               
-              "E": "東北楽天ゴールデンイーグルス",
-              "L": "埼玉西武ライオンズ",
-              "M": "千葉ロッテマリーンズ",
-              "H": "福岡ソフトバンクホークス",
-              "Bs":"オリックス・バファローズ",
-              "F": "北海道日本ハムファイターズ"]
+              E:  "東北楽天ゴールデンイーグルス",
+              L:  "埼玉西武ライオンズ",
+              M:  "千葉ロッテマリーンズ",
+              H:  "福岡ソフトバンクホークス",
+              Bs: "オリックス・バファローズ",
+              F:  "北海道日本ハムファイターズ"]
 
 
 ## 試合情報のデータ抽出
@@ -183,10 +184,33 @@ end
 
 
 
+# 球審・塁審データの抽出
+def make_judge_info (doc)
+  judge_table = {
+    "球審" => "PU", "塁審（一）" => "1BU",
+    "塁審（ニ）" => "2BU", "塁審（三）" => "3BU"
+  }
+  
+  judge_tr = doc.xpath('//div[@id="yjSNLiveJudge"]/table/tr')
+  
+  position = judge_tr.xpath('./th').map {|th| judge_table[th.text]}
+  name     = judge_tr.xpath('./td').map {|td| td.text}
+
+  judge = position.map.with_index do |pos, idx|
+    {"position" => pos, "name" => name[idx]}
+  end
+  
+  return judge
+end
+
+
 html_name = ARGV[0]
 doc = Nokogiri::HTML.parse(open(html_name))
 
-info = {'game' => make_game_info(doc), 'result' => make_result_info(doc),
-  'team' => [make_home_member_info(doc), make_visitor_member_info(doc)]}
+info = {
+  'game' => make_game_info(doc), 'result' => make_result_info(doc),
+  'team' => [make_home_member_info(doc), make_visitor_member_info(doc)],
+  'judge' => make_judge_info(doc)}
 
 puts JSON.pretty_generate(info)
+
