@@ -40,81 +40,80 @@ SportNavi(Yahooプロ野球)の一球速報データを解析して統計デー�
 * 日付 ['YYYY-MM-DD']
     * 試合INDEC ['GG']
         * 試合情報 ['game']
-	    * チーム ['team'][2]    ※ 0: ホームチーム 1: ビジターチーム
-	    * 球場 ['stadium']
-	    * 開始時間 ['time']     ※ HH:MM形式
-	    
+            * チーム ['team'][2]    ※ 0: ホームチーム 1: ビジターチーム
+            * 球場 ['stadium']
+            * 開始時間 ['time']     ※ HH:MM形式
+            
         * 試合結果情報 ['result']
-	    * スコアー ['score'][2] ※ 0: ホームチーム 1: ビジターチーム
-	    * 観客数 ['attendance']
-	    * 試合時間 ['time']     ※ HH:MM形式
-	    * 記録情報 ['record']
-	        * 勝ち投手 ['win']
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 記録(試合終了時) ['record']   (未)
-		* 負け投手 ['lose']
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 記録(試合終了時) ['record']   (未)
-		* 抑え投手 ['save']
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 記録(試合終了時) ['record']   (未)
-		* 本塁打 ['hr'][]
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 本数(打撃時) ['no']
-		    * イニング ['inning']   (未)
-		    * 種類 ['type']   ※ ソロ,2ラン,3ラン,満塁
+            * スコアー ['score'][2] ※ 0: ホームチーム 1: ビジターチーム
+            * 観客数 ['attendance']
+            * 試合時間 ['time']     ※ HH:MM形式
+            * 記録情報 ['record']
+                * 勝ち投手 ['win']
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 記録(試合終了時) ['record']   (未)
+                * 負け投手 ['lose']
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 記録(試合終了時) ['record']   (未)
+                * 抑え投手 ['save']
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 記録(試合終了時) ['record']   (未)
+                * 本塁打 ['hr'][]
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 本数(打撃時) ['no']
+                    * イニング ['inning']   (未)
+                    * 種類 ['type']   ※ ソロ,2ラン,3ラン,満塁
 
-	* メンバー情報 ['member']
-	    * 先発メンバー ['starter']
-	        * 投手 ['pitcher']
-		* 野手 ['fielder'][9]  ※ 基本打順順
-		    * 打順(試合開始時) ['no']
-		    * 守備位置(試合開始時) ['position']
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 打率(試合開始時) ['avg']
-	    * 控えメンバー ['bench']
-	        * 投手 ['pitcher'][]
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 防御率(試合開始時) ['era']
-		* 野手 ['fielder'][]
-		    * 名前 ['name']
-		    * ID ['id']
-		    * 打率(試合開始時) ['avg']
+        * メンバー情報 ['member']
+            * 先発メンバー ['starter']
+                * 投手 ['pitcher']
+                * 野手 ['fielder'][9]  ※ 基本打順順
+                    * 打順(試合開始時) ['no']
+                    * 守備位置(試合開始時) ['position']
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 打率(試合開始時) ['avg']
+            * 控えメンバー ['bench']
+                * 投手 ['pitcher'][]
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 防御率(試合開始時) ['era']
+                * 野手 ['fielder'][]
+                    * 名前 ['name']
+                    * ID ['id']
+                    * 打率(試合開始時) ['avg']
             * 審判 ['umpier'][4]     ※ 基本 球審(pu),1塁塁審(1bu),2塁塁審(2bu),3塁塁審(3bu)の順
-	        * 位置 ['position']  ※ pu,1bu,2bu,3bu
-		* 名前 ['name']
-		
+                * 位置 ['position']  ※ pu,1bu,2bu,3bu
+                * 名前 ['name']
+                
         * 打撃結果 ['batting'][]
-	    * 守備位置 ['position']
-	    * ID ['id']
-	    * 名前 ['name']   ※姓名形式
-	    * 打率(試合終了時点) ['avg']
-	    * 打数 []
-	    * 得点 []
-	    * 安打 []
-	    * 打点 []
-	    * 三振 []
-	    * 四死球 []
-	    * 犠打 []
-	    * 盗塁 []
-	    * 本塁打 ['hr']
-	    * 打撃結果 ['bat'][]   ※ 打席順
-	        * イニング ['inning']
-		* 結果 ['result']
-		* 打点 ['isrun']    ※ True or False
-		* 安打 ['ishit']    ※ True or False
-	    
-	* 投球結果 ['pitching'][]
+            * 守備位置 ['position']
+            * ID ['id']
+            * 名前 ['name']   ※姓名形式
+            * 打率(試合終了時点) ['avg']
+            * 打数 []
+            * 得点 []
+            * 安打 []
+            * 打点 []
+            * 三振 []
+            * 四死球 []
+            * 犠打 []
+            * 盗塁 []
+            * 本塁打 ['hr']
+            * 打撃結果 ['bat'][]   ※ 打席順
+                * イニング ['inning']
+                * 結果 ['result']
+                * 打点 ['isrun']    ※ True or False
+                * 安打 ['ishit']    ※ True or False
+            
+        * 投球結果 ['pitching'][]
 
 
 
 用語
 ----
-
 	
