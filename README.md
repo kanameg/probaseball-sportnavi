@@ -34,8 +34,9 @@ SportNavi(Yahooプロ野球)の一球速報データを解析して統計デー�
     * (未実装)
 
 
-## 試合情報データ構造
 
+## データ構造
+### 試合情報データ構造
 * 日付 ['YYYY-MM-DD']
     * 試合INDEC ['GG']
         * 試合情報 ['game']
@@ -51,20 +52,20 @@ SportNavi(Yahooプロ野球)の一球速報データを解析して統計デー�
                 * 勝ち投手 ['win']
                     * 名前 ['name']
                     * ID ['id']
-                    * 記録(試合終了時) ['record']   (未)
+                    * 記録(試合終了時) ['record'] 未実装
                 * 負け投手 ['lose']
                     * 名前 ['name']
                     * ID ['id']
-                    * 記録(試合終了時) ['record']   (未)
+                    * 記録(試合終了時) ['record'] 未実装
                 * 抑え投手 ['save']
                     * 名前 ['name']
                     * ID ['id']
-                    * 記録(試合終了時) ['record']   (未)
+                    * 記録(試合終了時) ['record'] 未実装
                 * 本塁打 ['hr'][]
                     * 名前 ['name']
                     * ID ['id']
                     * 本数(打撃時) ['no']
-                    * イニング ['inning']   (未)
+                    * イニング ['inning'] 未実装
                     * 種類 ['type']   ※ ソロ,2ラン,3ラン,満塁
 
         * メンバー情報 ['member']
@@ -88,54 +89,58 @@ SportNavi(Yahooプロ野球)の一球速報データを解析して統計デー�
             * 審判 ['umpier'][4]     ※ 基本 球審(pu),1塁塁審(1bu),2塁塁審(2bu),3塁塁審(3bu)の順
                 * 位置 ['position']  ※ pu,1bu,2bu,3bu
                 * 名前 ['name']
-                
+
+
+### 打撃結果データ構造
+* 日付 ['YYYY-MM-DD']
+    * 試合INDEC ['GG']
         * 打撃結果 ['batting'][]
             * 守備位置 ['position']
             * ID ['id']
             * 名前 ['name']   ※姓名形式
             * 打率(試合終了時点) ['avg']
-            * 打数 []
-            * 得点 []
-            * 安打 []
-            * 打点 []
-            * 三振 []
-            * 四死球 []
-            * 犠打 []
-            * 盗塁 []
+            * 打数 ['ab']
+            * 得点 ['run']
+            * 安打 ['hit']
+            * 打点 ['rbi']
+            * 三振 ['so']
+            * 四死球 ['bb']
+            * 犠打 ['sh']
+            * 盗塁 ['sb']
             * 本塁打 ['hr']
             * 打撃結果 ['bat'][]   ※ 打席順
                 * イニング ['inning']
                 * 結果 ['result']
                 * 打点 ['isrun']    ※ True or False
                 * 安打 ['ishit']    ※ True or False
-            
+
+### 投球結果データ構造
+* 日付 ['YYYY-MM-DD']
+    * 試合INDEC ['GG']
         * 投球結果 ['pitching'][]
 
 
 
 ## 英語用語 略語
+|            | 英語                       | 英略字 |
+|:-----------|:---------------------------|:------:|
+| 打席       | at bat                     | AB     |
+| 安打       | hit                        | H 1B   |
+| 二塁打     | double                     | 2B     |
+| 三塁打     | triple                     | 3B     |
+| 本塁打     | home run                   | HR     |
+| 四球       | base on balls              | BB     |
+| 敬遠       | intentional base on balls  | IBB    |
+| 死球       | hit by pitch               | HBP    |
+| 犠打       | sacrifice hit              | SH     |
+| 犠飛       | sacrifice fly              | SF     |
+| 盗塁       | stolen base                | SB     |
+| ゴロ       | grounded out               | GO     |
+| フライ     | flied out                  | FO     |
+| 三振       | strike out                 | SO     |
+| 野選       | fielders choice            | FC     |
+| エラー     | error                      | E      |
 
-打席：  at bat  (AB)
-打数：  time at bat  (TB)
-
-安打：  hit (H, 1B)
-二塁打：  double (2B)
-三塁打：  triple (3B)
-本塁打：  home run  (HR)
-
-四球： base on balls (BB)
-敬遠： intentional base on balls (IBB)
-死球： hit by pitch (HBP)
-
-犠打：  sacrifice hit (SH)
-犠飛：  sacrifice fly (SF)
-
-盗塁：  stolen base (SB)
-
-ゴロ：  (GO)
-フライ： (FO)
-
-塁打：  total base  (TB)
 
 
 ## 打席結果
@@ -190,6 +195,7 @@ SportNavi(Yahooプロ野球)の一球速報データを解析して統計デー�
 | ファールフライ                | 邪飛 |
 | ダブルプレー                  | 併殺 |
 | トリプルプレー                | 三重 |
+
 
 
 
