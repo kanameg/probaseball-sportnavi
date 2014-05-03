@@ -7,23 +7,29 @@ require "json"
 require "nokogiri"
 
 
-position_table = [投: "P", 遊: "SS", 二: "2B", 左: "LF", 三: "3B",
-                  捕: "C", 一: "1B", 右: "RF", 中: "CF"]
+$position_table = {
+  投: "P", 遊: "SS", 二: "2B", 左: "LF", 三: "3B",
+  捕: "C", 一: "1B", 右: "RF", 中: "CF"}
 
 
-team_table = [G:  "読売ジャイアンツ",
-              T:  "阪神タイガース",
-              C:  "広島東洋カープ",
-              D:  "中日ドラゴンズ",
-              DB: "横浜DeNAベイスターズ",
-              S:  "東京ヤクルトスワローズ",
-              
-              E:  "東北楽天ゴールデンイーグルス",
-              L:  "埼玉西武ライオンズ",
-              M:  "千葉ロッテマリーンズ",
-              H:  "福岡ソフトバンクホークス",
-              Bs: "オリックス・バファローズ",
-              F:  "北海道日本ハムファイターズ"]
+$team_table = {
+  G:  "読売ジャイアンツ",
+  T:  "阪神タイガース",
+  C:  "広島東洋カープ",
+  D:  "中日ドラゴンズ",
+  DB: "横浜DeNAベイスターズ",
+  S:  "東京ヤクルトスワローズ",
+  
+  E:  "東北楽天ゴールデンイーグルス",
+  L:  "埼玉西武ライオンズ",
+  M:  "千葉ロッテマリーンズ",
+  H:  "福岡ソフトバンクホークス",
+  Bs: "オリックス・バファローズ",
+  F:  "北海道日本ハムファイターズ"}
+
+$tb_table = {表: "T", 裏: "B"}
+
+$hr_table = {"ソロ" => "1R", "2ラン" => "2R", "3ラン" => "3R", "満塁" => "4R"}
 
 
 ## 試合情報のデータ抽出
@@ -193,24 +199,94 @@ def make_judge_info (doc)
   
   judge_tr = doc.xpath('//div[@id="yjSNLiveJudge"]/table/tr')
   
-  position = judge_tr.xpath('./th').map {|th| judge_table[th.text]}
+#  position = judge_tr.xpath('./th').map {|th| judge_table[th.text]}
   name     = judge_tr.xpath('./td').map {|td| td.text}
 
-  judge = position.map.with_index do |pos, idx|
-    {"position" => pos, "name" => name[idx]}
-  end
+#  judge = position.map.with_index do |pos, idx|
+#    {"position" => pos, "name" => name[idx]}
+#  end
   
-  return judge
+#  return judge
+  return {
+    "pu" => name[0], "1bu" => name[1],
+    "2bu" => name[2], "3bu" => name[3]
+  }
 end
+
+
+# 試合記録（責任投手・本塁打）の取得
+# game['record']['winning']['name']    勝ち投手名
+# game['record']['losing']['id']       負け投手ID
+# game['record']['HR'][1]['id']        本塁打2本目の打者ID
+#
+def make_record_info (doc)
+  record_tr = doc.xpath('//div[@id="yjSNLivePitcher"]/table/tr')
+
+  
+  return {
+    win: make_pitcher_record(record_tr[0]),
+    lose: make_pitcher_record(record_tr[1]),
+    save: make_pitcher_record(record_tr[2]),
+    hr: make_batter_record_info(record_tr[3], record_tr[4])
+  }
+end
+
+# 投手記録（責任投手）の取得
+def make_pitcher_record (tr)
+
+  info = tr.xpath('./td').text
+  
+  unless info.empty?
+    a = tr.xpath('./td/p/a')
+    name = a.text
+    id   = scrape_player_id(a.attribute('href').text)
+    return {name: name, id: id}
+  end
+end
+
+
+# 打者記録（本塁打）の取得
+def make_batter_record_info(visitor_tr, home_tr)
+
+  visitor_team_hr = visitor_tr.xpath('./td/p').text.scan(/([^\n|、]+) ([0-9]+)号\(([0-9]+)回([表|裏])(.+)\)/).map.with_index do |hr, index|
+    {
+      name: hr[0],
+      no: hr[1],
+      #inning: hr[2] + $tb_table[hr[3]],
+      type: $hr_table[hr[4]]
+    }
+  end
+  visitor_team_hr.each do |hash|
+    hash.store('id', scrape_player_id(visitor_tr.xpath('./td/p/a').attribute('href').text))
+  end
+  p visitor_team_hr
+  
+  
+  home_team_hr = home_tr.xpath('./td/p').text.scan(/([^\n|、]+) ([0-9]+)号\(([0-9]+)回([表|裏])(.+)\)/).map.with_index do |hr, index|
+    {
+      name: hr[0],
+      no: hr[1],
+      #inning: hr[2] + $tb_table[hr[3]],
+      type: $hr_table[hr[4]]
+    }
+  end
+  home_team_hr.each do |hash|
+    hash.store('id', scrape_player_id(home_tr.xpath('./td/p/a').attribute('href').text))
+  end
+  p home_team_hr
+
+  return  [visitor_team_hr, home_team_hr].flatten
+end
+
 
 
 html_name = ARGV[0]
 doc = Nokogiri::HTML.parse(open(html_name))
 
 info = {
-  'game' => make_game_info(doc), 'result' => make_result_info(doc),
-  'team' => [make_home_member_info(doc), make_visitor_member_info(doc)],
-  'judge' => make_judge_info(doc)}
+  game: make_game_info(doc), result: make_result_info(doc),
+  team: [make_home_member_info(doc), make_visitor_member_info(doc)],
+  judge: make_judge_info(doc), record: make_record_info(doc)
+}
 
 puts JSON.pretty_generate(info)
-
