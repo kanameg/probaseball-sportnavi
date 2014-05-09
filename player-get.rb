@@ -4,5 +4,6 @@
 require File.dirname(__FILE__) + '/playerdb'
   
 id = ARGV[0]
-puts JSON.pretty_generate(PlayerDB.search(id))
+p PlayerDB.search(id)
+#puts JSON.pretty_generate(PlayerDB.search(id))
 #puts JSON.pretty_generate(PlayerDB.delete(id))

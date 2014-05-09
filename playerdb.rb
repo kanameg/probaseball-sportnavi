@@ -65,7 +65,9 @@ class PlayerDB
     end
     
     player_div = doc.xpath('//div[@class="PlayerAdBox mb15"]')
-    
+
+    # チーム
+    team = /NpbTeamLogoTop (.+)/.match(player_div.css('a').attribute('class').text)[1]
     # 名前、背番号、ポジション
     h1 = player_div.xpath('.//h1').children
     name = h1[0].text.gsub('　', "")
@@ -107,7 +109,7 @@ class PlayerDB
     
     # 選手情報
     player = {:name => name, :reading => reading,
-      :number => number, :position => position,
+      :team => team, :number => number, :position => position,
       :birthday => birthday, :age => age, :birthplace => birthplace,
       :height => height, :weight => weight, :bloodtype => bloodtype,
       :throws => throws, :bats => bats,
@@ -117,6 +119,4 @@ class PlayerDB
   end
   
 end
-
-
   
